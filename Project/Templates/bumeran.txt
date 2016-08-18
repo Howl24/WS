@@ -1,0 +1,25 @@
+Global:
+Job Center:							|Bumeran|
+Functions Filename:			|bumeran|
+URL Base:								|http://bumeran.com.pe|
+Period:									|ayer|
+Areas URL:							|http://bumeran.com.pe/postulantes/directorio.bum|
+Areas Source:						||
+Number of Offers Source:||
+Links per Page:					||
+Number of Sources:			||
+Offer Sources & Date:		||
+
+Offer Structure:
+Title:									||
+Level:									||
+Area: 									||
+Business:					      ||
+Description:			      ||
+Requirements:						||
+Locality:								||
+Modality:								||
+Salary:									||
+Others: 								||
+
+
