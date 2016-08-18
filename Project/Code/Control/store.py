@@ -26,7 +26,10 @@ class Store:
 		else:
 			cluster = Cluster(self.ip)
 
-		self.sesion = cluster.connect()
+		try:
+			self.sesion = cluster.connect()
+		except:
+			print("Unable to connect to database. (Hint: Start cassandra)")
 		self.createKeyspace()
 		self.createTable("offers")
 
@@ -55,7 +58,6 @@ class Store:
 			pubDate timestamp,
 			PRIMARY KEY( (month,year), description) );"""\
 		.format(self.keyspace, table))
-
 
 
 	def loadOffers(self, offers,mainList):
