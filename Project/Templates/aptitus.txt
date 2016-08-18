@@ -15,12 +15,12 @@ Title:									|1 section/{"class":"aviso"}/->1 div/{"class":"job_description"}/
 Level:									|1 section/{"class":"aviso"}/->1 div/{"class":"breadcrumb"}/->3 a/{}/->1 span/{}/|
 Area: 									|1 section/{"class":"aviso"}/->1 div/{"class":"breadcrumb"}/->2 a/{}/->1 span/{}/|
 Business:					      |1 section/{"class":"aviso"}/->1 h2/{}/->1 a/{}/|
-Description:			      |1 section/{"class":"aviso"}/->1 div/{"class":"job_box_wrapper"}/->1 div/{"class":"job_box_information", "itemprop":"description"}/|
-Requirements:						|1 section/{"class":"aviso"}/->1 div/{"class":"job_box_wrapper"}/->3 div/{"class":"job_box_information"}/|
+Description:			      |1 section/{"class":"aviso"}/->1 div/{"class":"job_box_information", "itemprop":"description"}/|
+Requirements:						|1 section/{"class":"aviso"}/->3 div/{"class":"job_box_wrapper"}/->1 div/{"class":"job_box_information"}/|
 Locality:								||
 Modality:								||
 Salary:									||
-Others: 								|1 section/{"class":"aviso"}/->1 div/{"class":"job_box_wrapper"}/->2 div/{"class":"job_box_information"}/|
+Others: 								|1 section/{"class":"aviso"}/->2 div/{"class":"job_box_wrapper"}/->1 div/{"class":"job_box_information"}/|
 
 
 
