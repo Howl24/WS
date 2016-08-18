@@ -11,16 +11,16 @@ Number of Sources:			|1|
 Offer Sources & Date:		|* a/{"class":"jobs_ads"}/href->1 div/{"class":"jobs_ads_options"}/->1 span/{}/|
 
 Offer Structure:
-Title:									|1 section/{"class":"aviso"}/->1 div/{"class":"breadcrumb"}/->4 a/{}/->1 span/{}/|
+Title:									|1 section/{"class":"aviso"}/->1 div/{"class":"job_description"}/->1 h1/{"class":"job_description_title"}/->1 label/{}/|
 Level:									|1 section/{"class":"aviso"}/->1 div/{"class":"breadcrumb"}/->3 a/{}/->1 span/{}/|
 Area: 									|1 section/{"class":"aviso"}/->1 div/{"class":"breadcrumb"}/->2 a/{}/->1 span/{}/|
-Business:					      |1 section/{"class":"aviso"}/->1 div/{"class":"job_box_wrapper"}/->1 div/{"class":"job_box_company"}/->1 a/{}/|
-Description:			      |1 section/{"class":"aviso"}/->1 div/{"class":"job_box_information", "itemprop":"description"}/|
-Requirements:						||
+Business:					      |1 section/{"class":"aviso"}/->1 h2/{}/->1 a/{}/|
+Description:			      |1 section/{"class":"aviso"}/->1 div/{"class":"job_box_wrapper"}/->1 div/{"class":"job_box_information", "itemprop":"description"}/|
+Requirements:						|1 section/{"class":"aviso"}/->1 div/{"class":"job_box_wrapper"}/->3 div/{"class":"job_box_information"}/|
 Locality:								||
 Modality:								||
 Salary:									||
-Others: 								||
+Others: 								|1 section/{"class":"aviso"}/->1 div/{"class":"job_box_wrapper"}/->2 div/{"class":"job_box_information"}/|
 
 
 
