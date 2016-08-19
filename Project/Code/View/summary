@@ -1,21 +1,23 @@
+['211']
 Detail:
  INFO: Configuration file read correctly
  INFO: Template Instance created
   
  
- INFO: Template Aptitus executed.
+ INFO: Template Bumeran executed.
   INFO: Function file imported
   INFO: 1 Areas obtained
   INFO: Area #1
-  INFO: 63 valid offers selected
-   INFO: 66 offers obtained in total (Invalid included)
-    INFO: Number of Offers filtered: 66
+  INFO: 211 valid offers selected
+   INFO: 211 offers obtained in total (Invalid included)
+    
+    INFO: Number of Offers filtered: 211
  
  
-  INFO: All offers were loaded
-   INFO: 7 Offers succesfully loaded to database
-   INFO: 56 Offers discarted because of duplication in database
-   ERROR: 0 Offers failed to load to database
+  ERROR: Some offers couldn't be loaded. Check detail file
+   INFO: 203 Offers succesfully loaded to database
+   INFO: 5 Offers discarted because of duplication in database
+   ERROR: 3 Offers failed to load to database
  
  
  

@@ -30,6 +30,7 @@ class Store:
 			self.sesion = cluster.connect()
 		except:
 			print("Unable to connect to database. (Hint: Start cassandra)")
+			return None
 		self.createKeyspace()
 		self.createTable("offers")
 

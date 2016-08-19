@@ -22,6 +22,11 @@ def makePageUrl(pageNum, url):
 	else:
 		newUrl= url + "?page=" + str(pageNum)
 		return newUrl
+
+
+def makeLinkUrl(link, url):
+	return link
+
 		
 
 	

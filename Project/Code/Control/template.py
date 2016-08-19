@@ -100,6 +100,7 @@ class Template:
 
 		#print(areas)
 		areas = ["administracion-y-finanzas"]
+		areas = ["/empleos-area-administracion-contabilidad-y-finanzas.html"]
 
 		if areas is None:
 			mainList.setTitle("Failed to scrap areas. Check areas source",MessageList.ERR)
@@ -111,9 +112,7 @@ class Template:
 
 
 
-	def getNumOffers(self,dateUrl):
-		mainList = MessageList()
-		
+	def getNumOffers(self,dateUrl,mainList):
 		try:
 			web = requests.get(dateUrl)
 			soup = bs4.BeautifulSoup(web.text,"lxml")
@@ -122,12 +121,21 @@ class Template:
 			return None
 
 		scraper = Scraper(soup, self.numOffSource)
-		numOff = scraper.scrap()[0]
-		numOff = int(numOff.split()[0])
 
+		data = scraper.scrap()
+		print(data)
+
+		numOff = data[0]
+			
+
+		try:
+			numOff = int(numOff.split()[0])
+		except:
+			mainList.addMsg("value obtained is not a number")
+			numOff = None
 
 		if numOff is None:
-			mainList.addMsg("Fail scraping number of offers.",MessageList.ERR)
+			mainList.setTitle("Fail scraping number of offers.",MessageList.ERR)
 			return None
 
 		return numOff
@@ -174,7 +182,14 @@ class Template:
 		totOffers = []
 		for index,link in enumerate(totLinks):
 			eprint("Offer #"+str(index+1))
-			offer = self.getOfferFromLink(link)
+
+			try:
+				linkUrl = self.module.makeLinkUrl(link,pageUrl)
+			except:
+				mainList.setTitle("makeLinkUrl is not working propertly", MessageList.ERR)
+				return None
+
+			offer = self.getOfferFromLink(linkUrl)
 			if offer is not None:
 				passTime = totDates[index]
 				offer.pubDate = self._toPublicationDate(passTime)
@@ -185,10 +200,17 @@ class Template:
 		return totOffers
 
 
+	#Must be sent to Functions
 	def _toPublicationDate(self, passTime):
 		curDate = datetime.date.today()
+
+		if passTime == "Ayer":
+			pubDate= curDate - datetime.timedelta(days = 1)
+			return pubDate
+
+
 		parts = passTime.split()
-		
+
 		type = parts[2]
 		value = int(parts[1])
 
@@ -215,10 +237,11 @@ class Template:
 
 	def getOffersFromPeriodUrl(self,periodUrl, mainList):
 
-		self.numOff = self.getNumOffers(periodUrl)
+		msgList = MessageList()
+		self.numOff = self.getNumOffers(periodUrl,msgList)
+		mainList.addMsgList(msgList)
 
 		if self.numOff is None:
-			mainList.setTitle("Failed to get the number of offers", MessageList.ERR)
 			return None
 
 		mainList.addMsg("Number of Offers filtered: " + str(self.numOff),MessageList.INF)
