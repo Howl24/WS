@@ -1,23 +1,23 @@
-['211']
+['73 empleos en Administración y finanzas']
 Detail:
  INFO: Configuration file read correctly
  INFO: Template Instance created
   
  
- INFO: Template Bumeran executed.
+ INFO: Template Aptitus executed.
   INFO: Function file imported
   INFO: 1 Areas obtained
   INFO: Area #1
-  INFO: 211 valid offers selected
-   INFO: 211 offers obtained in total (Invalid included)
+  INFO: 69 valid offers selected
+   INFO: 73 offers obtained in total (Invalid included)
     
-    INFO: Number of Offers filtered: 211
+    INFO: Number of Offers filtered: 73
  
  
   ERROR: Some offers couldn't be loaded. Check detail file
-   INFO: 203 Offers succesfully loaded to database
-   INFO: 5 Offers discarted because of duplication in database
-   ERROR: 3 Offers failed to load to database
+   INFO: 0 Offers succesfully loaded to database
+   INFO: 0 Offers discarted because of duplication in database
+   ERROR: 69 Offers failed to load to database
  
  
  

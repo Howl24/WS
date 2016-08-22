@@ -15,7 +15,7 @@ Title:									|1 section/{"class":"aviso"}/->1 div/{"class":"job_description"}/
 Level:									|1 section/{"class":"aviso"}/->1 div/{"class":"breadcrumb"}/->3 a/{}/->1 span/{}/|
 Area: 									|1 section/{"class":"aviso"}/->1 div/{"class":"breadcrumb"}/->2 a/{}/->1 span/{}/|
 Business:					      |1 section/{"class":"aviso"}/->1 h2/{}/->1 a/{}/|
-Description:			      |1 section/{"class":"aviso"}/->1 div/{"class":"job_box_information", "itemprop":"description"}/|
+Description:			      |1 section/{"class":"aviso"}/->1 div/{"class":"row"}/html|
 Requirements:						|1 section/{"class":"aviso"}/->3 div/{"class":"job_box_wrapper"}/->1 div/{"class":"job_box_information"}/|
 Locality:								||
 Modality:								||

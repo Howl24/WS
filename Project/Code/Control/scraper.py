@@ -61,7 +61,10 @@ class Scraper:
 
 		if (attr != ""):
 			try:
-				data = tagList[idxTag-1][attr]
+				if attr == "html":
+					data = tagList[idxTag-1].prettify().encode("utf-8")
+				else:
+					data = tagList[idxTag-1][attr]
 			except:
 				data = None
 

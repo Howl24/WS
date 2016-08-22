@@ -99,8 +99,8 @@ class Template:
 		areas = data[0]
 
 		#print(areas)
-		areas = ["administracion-y-finanzas"]
-		areas = ["/empleos-area-administracion-contabilidad-y-finanzas.html"]
+		areas = ["administracion-y-finanzas"]																			 #Test Aptitus
+		#areas = ["/empleos-area-administracion-contabilidad-y-finanzas.html"]     #Test Bumeran
 
 		if areas is None:
 			mainList.setTitle("Failed to scrap areas. Check areas source",MessageList.ERR)
