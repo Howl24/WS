@@ -16,6 +16,7 @@ class Store:
 		self.keyspace = keyspace
 		self.ip = ip
 		self.sesion = None
+		self.curIndex = 0
 
 	def connect(self):
 
@@ -28,19 +29,15 @@ class Store:
 			self.sesion = cluster.connect()
 		except:
 			print("Unable to connect to database. (Hint: Start cassandra)")
-			return None
-		self.createKeyspace()
-
-
-	def createKeyspace(self):
-		self.sesion.execute("CREATE KEYSPACE IF NOT EXISTS {0}"\
-		.format(self.keyspace) + \
-		"	WITH REPLICATION = {'class':'SimpleStrategy','replication_factor':2};")
-
+			return False
+		return True
 
 	def createTables(self,jobCenter):
-		findTable = "UglyOffer_"+jobCenter+"_finder"
-		storeTable = "UglyOffer_"+jobCenter
+
+		self.curIndex = Store.getCurIndex()
+
+		findTable = "unproc_offer_"+jobCenter+"_by_desc"
+		storeTable = "unproc_offer_"+jobCenter
 
 		try:
 			self.sesion.execute("""
@@ -48,52 +45,36 @@ class Store:
 				( description text,
 					month int,
 					year int,
-					pubDate timestamp,
 					PRIMARY KEY(description,month, year));
-				""".format(self.keyspace, self.findTable))
+				""".format(self.keyspace,findTable))
+
 
 			self.sesion.execute("""
 				CREATE TABLE IF NOT EXISTS {0}.{1}
-				
+				(	position int,
+					description text,
+					pubdate timestamp,
+					features map<text,text>,
+					PRIMARY KEY(position));
+				""".format(self.keyspace,storeTable))
 
-		
-
-
-
-
-
-
-
-
-
-	def createTable(self,table):
-		self.sesion.execute("""CREATE TABLE IF NOT EXISTS {0}.{1}
-		( month int,
-			year int,
-			description text,
-			title text,
-			level text,
-			area text,
-			business text,
-			requirements text,
-			locality text,
-			modality text,
-			salary text,
-			others text,
-			pubDate timestamp,
-			PRIMARY KEY( (month,year), description) );"""\
-		.format(self.keyspace, table))
+		except:
+			print("Error trying to create store tables")
+			return False
+		return True
 
 
-	def loadOffers(self, offers,mainList):
+
+	def loadOffers(self, offers,jobCenter,mainList):
 
 		errorLoading = False
+
 
 		cntLoad = 0
 		cntDisc = 0
 		cntErr = 0
 		for offer in offers:
-			repeated = self.insertOffer(offer)
+			repeated = self.insertOffer(offer,jobCenter)
 			if repeated is None:
 				cntErr += 1
 				errorLoading = True
@@ -125,38 +106,68 @@ class Store:
 			return value
 
 
+	@staticmethod
+	def getCurIndex():
+		with open("curIndex") as file:
+			idx = int(file.readline())
+		return idx
 
-	def insertOffer(self, offer):
+
+	def insertOffer(self, offer,jobCenter):
 		month = offer.pubDate.month
 		year = offer.pubDate.year
 
-		desc = Store.dbFormat(offer.description)
-		title = Store.dbFormat(offer.title)
-		level = Store.dbFormat(offer.level)
-		area = Store.dbFormat(offer.area)
-		business = Store.dbFormat(offer.business)
-		requirements = Store.dbFormat(offer.requirements)
-		locality = Store.dbFormat(offer.locality)
-		modality = Store.dbFormat(offer.modality)
-		salary = Store.dbFormat(offer.salary)
-		others = Store.dbFormat(offer.others)
+		description = Store.dbFormat(offer.description)
 		pubDate = Store.dbFormat(offer.pubDate)
 
-		command = """ insert into btpucp.offers(month, year, description, title, level, area,
-									business, requirements,locality, modality, salary, others, pubdate) values (
-									{0}, {1}, '{2}','{3}', '{4}' ,'{5}','{6}','{7}','{8}', '{9}', '{10}', '{11}', '{12}') if not exists;
-							""".format(str(month), str(year), desc, title, level, area, business, requirements,\
-							locality, modality, salary, others, pubDate)
 
-		command = unidecode(command)
+
+		findTable = "unproc_offer_"+jobCenter+"_by_desc"
+		storeTable = "unproc_offer_"+jobCenter
 
 		try:
-			result = self.sesion.execute(command)
-			return not result[0][0]
+			cmd = """
+				SELECT * FROM {0}.{1} WHERE description = '{2}';
+				""".format(self.keyspace, findTable, description)	
+			result = self.sesion.execute(cmd)
 		except:
-			eprint("")
-			eprint("Error running the cql command: "+ command)
-			eprint("--------------------------------------------------------------------------------------------------------------------")
+			print(cmd)
 			return None
 
+		if len(list(result)) == 0:
+			#No duplication
+			self.sesion.execute("""
+				INSERT INTO {0}.{1}(description, month, year) values(
+				{2},{3},{4})
+				""".format(self.keyspace, findTable, description,str(month), str(year)))
+
+	
+			self.sesion.execute("""
+				INSERT INTO {0}.{1}(position, description, pubdate, features)
+				VALUES (
+				%s,%s,%s,%s)
+				""".format(self.keyspace, findTable), (curIndex, description, pubDate, offer.features))
+
+			return True
+			
+		else:
+			return False
+
+#			command = """ insert into btpucp.offers(month, year, description, title, level, area,
+#										business, requirements,locality, modality, salary, others, pubdate) values (
+#										{0}, {1}, '{2}','{3}', '{4}' ,'{5}','{6}','{7}','{8}', '{9}', '{10}', '{11}', '{12}') if not exists;
+#								""".format(str(month), str(year), desc, title, level, area, business, requirements,\
+#								locality, modality, salary, others, pubDate)
+#	
+#			command = unidecode(command)
+#	
+#			try:
+#				result = self.sesion.execute(command)
+#				return not result[0][0]
+#			except:
+#				eprint("")
+#				eprint("Error running the cql command: "+ command)
+#				eprint("--------------------------------------------------------------------------------------------------------------------")
+#				return None
+#	
 

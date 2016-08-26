@@ -200,7 +200,6 @@ class Template:
 		return totOffers
 
 
-
 	def getOffersFromPeriodUrl(self,periodUrl, mainList):
 
 		msgList = MessageList()
@@ -306,6 +305,7 @@ class Template:
 		if not db.createTables(self.jobCenter):
 			return None
 
+
 		#Importing Custom Functions
 		msgList = MessageList()
 		mod = customImport(self.funcFilename,msgList)
@@ -337,7 +337,7 @@ class Template:
 
 					if offers is not None:
 						msgList = MessageList()
-						db.loadOffers(offers,msgList)
+						db.loadOffers(offers, self.jobCenter,msgList)
 						mainList.addMsgList(msgList)
 
 				mainList.setTitle("Template " + self.jobCenter + " executed.", MessageList.INF)
