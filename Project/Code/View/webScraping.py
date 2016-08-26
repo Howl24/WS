@@ -21,7 +21,6 @@ import datetime
 
 
 
-
 def createTemplate(tempFilename, mainList):
 
 	try:

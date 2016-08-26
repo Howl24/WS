@@ -30,7 +30,22 @@ class MessageList:
 
 	def size(self):
 		return len(self.list)
-		
+
+
+	def isEmpty(self):
+		return len(self.list) ==0
+	
+
+	def containErrors(self):
+		if self.title.type == ERR:
+			return True
+		else:
+			for msgList in self.list:
+				if msgList.containErrors():
+					return True
+
+			return False
+
 	def setTitle(self,text,type):
 		msg = Message(text,type)
 		self.title = msg

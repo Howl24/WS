@@ -378,23 +378,33 @@ def customImport(filename, mainList):
 
 
 
+
+#------------------------------------------------------------------------------------------------
+class FeaturesSource:
+	def __init__(self,namesSource, valuesSource):
+		self.namesSource = namesSource
+		self.valuesSource = valuesSource
+
+
+	@classmethod
+	def fromFile(cls, file, mainList):
+		names = utils.readSourceFromFile(file)
+		values = utils.readSourceFromFile(file)
+
+
+
+
+
+#------------------------------------------------------------------------------------------------
 class OfferTemplate(Template):
-	def __init__(self, globalAttributes, titleSource, levelSource, areaSource ,businessSource, descSource,\
-							reqSource, localitySource, modalitySource, salarySource, othersSource):
+
+	def __init__(self,globalAttributes, descSource, featSources):
 
 		Template.__init__(self,*globalAttributes)
 
-		self.titleSource = titleSource
-		self.levelSource = levelSource
-		self.areaSource = areaSource
-		self.businessSource= businessSource
 		self.descSource = descSource
-		self.reqSource = reqSource
-		self.localitySource = localitySource
-		self.modalitySource = modalitySource
-		self.salarySource = salarySource
-		self.othersSource = othersSource
-
+		self.featSources = featSources
+	
 
 	@staticmethod
 	def readAttributesFromFile(file,mainList):
@@ -402,43 +412,27 @@ class OfferTemplate(Template):
 		file.readline() #newline
 		file.readline() #Offer Detail:
 
-		titleSource = utils.readSourceFromFile(file)
-		if titleSource is None: mainList.addMsg("Failed to read the offer title source",MessageList.ERR)
-
-		levelSource = utils.readSourceFromFile(file)
-		if levelSource is None: mainList.addMsg("Failed to read the offer level source",MessageList.ERR)
-
-		areaSource = utils.readSourceFromFile(file)
-		if areaSource is None: mainList.addMsg("Failed to read the offer area source", MessageList.ERR)
-
-		businessSource = utils.readSourceFromFile(file)
-		if businessSource is None: mainList.addMsg("Failed to read the offer business source", MessageList.ERR)
-
 		descSource = utils.readSourceFromFile(file)
-		if descSource is None: mainList.addMsg("Failed to read the offer description source", MessageList.ERR)
+		if descSource is None:
+			mainList.addMsg("Failed to read the offer title source", MessageList.ERR)
 
-		reqSource = utils.readSourceFromFile(file)
-		if reqSource is None: mainList.addMsg("Failed to read the offer requirements source", MessageList.ERR)
+		featuresSources = []
+		while True:
+			featuresSource = FeaturesSource.fromFile(file,mainList)
+			if featuresSource is None:
+				break
+			else:
+				featuresSources.append(featuresSource)
 
-		
-		localitySource = utils.readSourceFromFile(file)
-		if localitySource is None: mainList.addMsg("Failed to read the offer locality source", MessageList.ERR)
 
-		modalitySource = utils.readSourceFromFile(file)
-		if modalitySource is None: mainList.addMsg("Failed to read the offer modality source", MessageList.ERR)
-
-		salarySource = utils.readSourceFromFile(file)
-		if salarySource is None: mainList.addMsg("Failed to read the offer salary source", MessageList.ERR)
-
-		othersSource = utils.readSourceFromFile(file)
-		if othersSource is None: mainList.addMsg("Failed to read the offer others source", MessageList.ERR)
-
-		if mainList.size() is not 0:
-			return None
+		if mainList.containErrors():
+			mainList.setTitle("All Offer Template Attributes are OK :)")
+			return globalAttr, descSource, featuresSources
 		else:
-			return globalAttr, titleSource, levelSource, areaSource, businessSource, descSource, reqSource, \
-			localitySource, modalitySource, salarySource, othersSource
-						
+			mainList.setTitle("Some Offer Template Attributes are WRONG :(")
+			return None
+
+
 
 	def getDataFromSource(self, soup, source):
 		if source == "":

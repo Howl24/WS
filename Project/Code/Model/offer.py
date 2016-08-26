@@ -1,33 +1,15 @@
 class Offer:
-	
-	def __init__(self,title,level,area, business, description,\
-				 requirements, locality, modality, salary, others, pubDate = None):
 
-		self.title = title
-		self.level = level
-		self.area = area
-		self.business = business
+	def __init__(self, description):
 		self.description = description
-		self.requirements = requirements
-		self.locality = locality
-		self.modality = modality
-		self.salary = salary
-		self.others = others
+		self.features = {}
+		self.pubDate = None
 
+	def setPubDate(self,pubDate):
 		self.pubDate = pubDate
 
+	def addFeature(self,name,value):
+		self.features[name] = value
 
-#	def show(self):
-#		print("Oferta: ")
-#		print(" Titulo:               " + str(self.title))
-#		print(" Nivel: 								" + str(self.level))
-#		print(" Area: 								" + str(self.area))
-#		print(" Empresa:              " + str(self.business))
-#		print(" Descripcion:          " + str(self.description))
-#		print(" Modalidad: 						" + str(self.modality))
-#		print(" Salario: 							" + str(self.salary))
-#		print(" Fecha de publicacion: " + str(self.pubDate))
-#		print("")
-#
 
 

@@ -83,25 +83,36 @@ def _validateAttributeFormat(attr):
 	return attr.isalpha() or attr == ""
 
 
-def readSourceFromFile(tempFile):
-	str = tempFile.readline()
+
+def _validateStringSource(source):
+	nlvls = len(source.split('->'))
+	if (nlvls == 1):
+		nparts = len(source.split('/'))
+		if nparts == 1):
+			return True
+		else:
+			return False
+	else:
+		return False
+
+
+
+def readSourceFromString(str):
+	
 	data = str.split('|')
 
 	if (len(data)!=3):
 		return None
-
 	else:
-		if (data[1] == ""):
+			
+		if self._validateString(data[1]):
 			return data[1]
-
-		levels = data[1].split('->')
-		if len(levels)==0:
-			return None
-
 		else:
 
+			levels = data[1].split('->')
 			for level in levels:
 				parts = level.split('/')
+
 				if (len(parts)!=3):
 					return None
 				else:
@@ -119,7 +130,12 @@ def readSourceFromFile(tempFile):
 						return None
 
 					return data[1]
-					
+
+
+def readSourceFromFile(tempFile):
+	str = tempFile.readline()
+	readSourceFromString(str)
+	
 
 		"""
 
