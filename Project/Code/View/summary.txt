@@ -1,0 +1,11 @@
+Detail:
+ INFO: Configuration file read correctly
+ ERROR: Unable to create Template Instance
+  ERROR: Some Offer Template Attributes are WRONG :(
+   ERROR: Failed to read the source to get areas
+   ERROR: Failed to read the source to get the number of offers
+   ERROR: Failed to read the offer source #1
+   ERROR: Failed to read the offer title source
+ 
+ 
+ 

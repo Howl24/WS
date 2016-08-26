@@ -10,7 +10,6 @@ from Utils.message import MessageList
 
 
 
-
 class Store:
 	
 	def __init__(self,keyspace,ip= None):
@@ -32,14 +31,12 @@ class Store:
 			print("Unable to connect to database. (Hint: Start cassandra)")
 			return None
 		self.createKeyspace()
-		self.createTable("offers")
 
 
 	def createKeyspace(self):
 		self.sesion.execute("CREATE KEYSPACE IF NOT EXISTS {0}"\
 		.format(self.keyspace) + \
-		"	WITH REPLICATION = {'class':'SimpleStrategy','replication_factor':1};")
-
+		"	WITH REPLICATION = {'class':'SimpleStrategy','replication_factor':2};")
 
 
 	def createTable(self,table):

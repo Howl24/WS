@@ -19,8 +19,6 @@ from Control.store import Store
 
 import datetime
 
-
-
 def createTemplate(tempFilename, mainList):
 
 	try:
@@ -125,13 +123,15 @@ def main():
 	database = Store(keyspace)
 	database.connect()
 
-	sys.stdout = open("summary", 'w')
-	sys.stderr = open(out,'w')
+	#sys.stdout = open("summary.txt", 'w')
+	#sys.stderr = open(out,'w')
 		
 	for filename in filenames:
 		msgList = MessageList()
 		template = createTemplate(filename, msgList)
 		mainList.addMsgList(msgList)
+
+		template = None
 
 		if template is not None:
 			msgList = MessageList()
@@ -141,7 +141,7 @@ def main():
 	mainList.showAll(0,sys.stdout)
 	sys.stdout.flush()
 
-	sendEmail(sender, password, receiver, out)
+	#sendEmail(sender, password, receiver, out)
 
 
 if __name__ == "__main__":

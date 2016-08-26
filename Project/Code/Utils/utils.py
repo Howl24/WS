@@ -85,10 +85,14 @@ def _validateAttributeFormat(attr):
 
 
 def _validateStringSource(source):
+
+	if source is "":
+		return False
+
 	nlvls = len(source.split('->'))
 	if (nlvls == 1):
 		nparts = len(source.split('/'))
-		if nparts == 1):
+		if nparts == 1:
 			return True
 		else:
 			return False
@@ -98,14 +102,14 @@ def _validateStringSource(source):
 
 
 def readSourceFromString(str):
-	
+
 	data = str.split('|')
 
 	if (len(data)!=3):
 		return None
 	else:
 			
-		if self._validateString(data[1]):
+		if _validateStringSource(data[1]):
 			return data[1]
 		else:
 
@@ -116,7 +120,7 @@ def readSourceFromString(str):
 				if (len(parts)!=3):
 					return None
 				else:
-
+					
 					tag = parts[0]
 					if not _validateTagFormat(tag):
 						return None
@@ -129,74 +133,23 @@ def readSourceFromString(str):
 					if not _validateAttributeFormat(attr):
 						return None
 
-					return data[1]
+			return data[1]
 
 
 def readSourceFromFile(tempFile):
-	str = tempFile.readline()
-	readSourceFromString(str)
+	fileline = tempFile.readline()
+	if fileline is None:
+		return None
+	else:
+		return readSourceFromString(fileline)
 	
 
-		"""
 
-		mainList = MessageList()
-
-		#Old format.
-
-		#Validate format
-
-		#Levels must be separated by "->"
-		levels = data[1].split('->')
-		if (len(levels)==0):
-			mainList.addMsg("Levels incorrectly separated. (Hint: use ->)" \
-											, MessageList.ERR)
-			return None
-
-		else:
-
-			for level in levels:
-				#Every level has 3 parts (tag/diccionary/attributes)
-				parts = level.split('/')
-				if (len(parts)!=3):
-					mainList.addMsg("Parts incorrectly separated."+ \
-													"(Hint: 3 parts per level separated by /", \
-													MessageList.ERR)
-
-
-													
-
-					return None
-				else:
-
-					err = False
-					tag = parts[0]
-
-					if not (tag.isalpha() or \
-									(tag!= "" and tag[0] == '*' and tag[1:].isalpha())):
-						mainList.addMsg("Incorrect tag format ",MessageList.ERR)
-						err = True
-
-					try:	
-						dicc = eval(parts[1])
-					except:
-						mainList.addMsg("Diccionary part is not a diccionary instance")
-						err = True
-					
-					attr = parts[2]
-					if not (attr.isalpha() or attr == ""):
-						mainList.addMsg("Attribute part must be alphabetic" + \
-														"or an empty string", MessageList.ERR)
-						err = True
-
-					if err:
-						return None
-					else:	
-						return data[1]
-
-		"""
-
-
-
+def isblank(mystring):
+	if mystring and mystring.strip():
+		return False
+	return True
+	
 
 	
 		

@@ -388,8 +388,22 @@ class FeaturesSource:
 
 	@classmethod
 	def fromFile(cls, file, mainList):
-		names = utils.readSourceFromFile(file)
+		fileline = file.readline()
+		if fileline is None or utils.isblank(fileline) :
+			return None
+			
+		names = utils.readSourceFromString(fileline)
+		if names is None:
+			mainList.addMsg("Failed to read names", MessageList.ERR)
 		values = utils.readSourceFromFile(file)
+		if values is None:
+			mainList.addMsg("Failed to read values", MessageList.ERR)
+
+		if mainList.containErrors():
+			return None
+		else:
+			return cls(names,values)
+
 
 
 
@@ -401,7 +415,6 @@ class OfferTemplate(Template):
 	def __init__(self,globalAttributes, descSource, featSources):
 
 		Template.__init__(self,*globalAttributes)
-
 		self.descSource = descSource
 		self.featSources = featSources
 	
@@ -410,26 +423,32 @@ class OfferTemplate(Template):
 	def readAttributesFromFile(file,mainList):
 		globalAttr = Template.readAttributesFromFile(file,mainList)
 		file.readline() #newline
-		file.readline() #Offer Detail:
+		file.readline() #Offer Structure:
 
 		descSource = utils.readSourceFromFile(file)
 		if descSource is None:
-			mainList.addMsg("Failed to read the offer title source", MessageList.ERR)
+			mainList.addMsg("Failed to read the offer description source", MessageList.ERR)
 
 		featuresSources = []
 		while True:
-			featuresSource = FeaturesSource.fromFile(file,mainList)
+			msgList = MessageList()
+			featuresSource = FeaturesSource.fromFile(file,msgList)
+		
 			if featuresSource is None:
+				if msgList.containErrors():
+					msgList.setTitle("Failed to read features Source #"+ str(len(featuresSources)+1),MessageList.ERR)
+					mainList.addMsgList(msgList)
+
 				break
 			else:
+
 				featuresSources.append(featuresSource)
 
-
-		if mainList.containErrors():
-			mainList.setTitle("All Offer Template Attributes are OK :)")
+		if not mainList.containErrors():
+			mainList.setTitle("All Offer Template Attributes are OK :)",MessageList.INF)
 			return globalAttr, descSource, featuresSources
 		else:
-			mainList.setTitle("Some Offer Template Attributes are WRONG :(")
+			mainList.setTitle("Some Offer Template Attributes are WRONG :(",MessageList.ERR)
 			return None
 
 

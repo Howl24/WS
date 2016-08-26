@@ -37,7 +37,7 @@ class MessageList:
 	
 
 	def containErrors(self):
-		if self.title.type == ERR:
+		if self.title.type == MessageList.ERR:
 			return True
 		else:
 			for msgList in self.list:
