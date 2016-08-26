@@ -29,7 +29,41 @@ def makeLinkUrl(link, url):
 
 		
 
-	
+#Must be sent to Functions
+def toPublicationDate(self, passTime):
+		curDate = datetime.date.today()
+
+		if passTime == "Ayer":
+			pubDate= curDate - datetime.timedelta(days = 1)
+			return pubDate
+
+
+		parts = passTime.split()
+
+		type = parts[2]
+		value = int(parts[1])
+
+		if type in ['segundos','segundo']:
+			pubDate = curDate - datetime.timedelta(seconds = value)
+
+		if type in ['minutos', 'minuto']:
+			pubDate = curDate - datetime.timedelta(minutes = value)
+
+		if type in ['hora', 'horas']:
+			pubDate = curDate - datetime.timedelta(hours = value)
+
+		if type in ["día", "días"]:
+			pubDate = curDate - datetime.timedelta(days = value)
+
+		if type in ["semana", "semanas"]:
+			pubDate = curDate - datetime.timedelta(weeks = value)
+
+		if type in ["mes", "meses"]:
+			pubDate = curDate - datetime.timedelta(months = value)
+		
+		return pubDate
+
+
 
 
 

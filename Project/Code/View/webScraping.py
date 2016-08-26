@@ -131,8 +131,6 @@ def main():
 		template = createTemplate(filename, msgList)
 		mainList.addMsgList(msgList)
 
-		template = None
-
 		if template is not None:
 			msgList = MessageList()
 			template.execute(database, msgList)

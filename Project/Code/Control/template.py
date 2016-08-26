@@ -200,40 +200,6 @@ class Template:
 		return totOffers
 
 
-	#Must be sent to Functions
-	def _toPublicationDate(self, passTime):
-		curDate = datetime.date.today()
-
-		if passTime == "Ayer":
-			pubDate= curDate - datetime.timedelta(days = 1)
-			return pubDate
-
-
-		parts = passTime.split()
-
-		type = parts[2]
-		value = int(parts[1])
-
-		if type in ['segundos','segundo']:
-			pubDate = curDate - datetime.timedelta(seconds = value)
-
-		if type in ['minutos', 'minuto']:
-			pubDate = curDate - datetime.timedelta(minutes = value)
-
-		if type in ['hora', 'horas']:
-			pubDate = curDate - datetime.timedelta(hours = value)
-
-		if type in ["día", "días"]:
-			pubDate = curDate - datetime.timedelta(days = value)
-
-		if type in ["semana", "semanas"]:
-			pubDate = curDate - datetime.timedelta(weeks = value)
-
-		if type in ["mes", "meses"]:
-			pubDate = curDate - datetime.timedelta(months = value)
-		
-		return pubDate
-
 
 	def getOffersFromPeriodUrl(self,periodUrl, mainList):
 
@@ -368,6 +334,12 @@ def customImport(filename, mainList):
 
 	if not "makePageUrl" in customFunctions:
 		mainList.addMsg("Missing makePageUrl function",MessageList.ERR)
+
+	if not "makeLinkUrl" in customFunctions:
+		mainList.addMsg("Missing makeLinkUrl function",MessageList.ERR)
+
+	if not "toPublicationDate" in customFunctions:
+		mainList.addMsg("Missing toPublicationDate function", MessageList.ERR)
 
 	if mainList.size() is not 0:
 		mainList.setTitle("Fail importing function file", MessageList.ERR)
