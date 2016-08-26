@@ -9,7 +9,6 @@ from Utils.utils import eprint
 from Utils.message import MessageList
 
 
-
 class Store:
 	
 	def __init__(self,keyspace,ip= None):
@@ -37,6 +36,34 @@ class Store:
 		self.sesion.execute("CREATE KEYSPACE IF NOT EXISTS {0}"\
 		.format(self.keyspace) + \
 		"	WITH REPLICATION = {'class':'SimpleStrategy','replication_factor':2};")
+
+
+	def createTables(self,jobCenter):
+		findTable = "UglyOffer_"+jobCenter+"_finder"
+		storeTable = "UglyOffer_"+jobCenter
+
+		try:
+			self.sesion.execute("""
+				CREATE TABLE IF NOT EXISTS {0}.{1}
+				( description text,
+					month int,
+					year int,
+					pubDate timestamp,
+					PRIMARY KEY(description,month, year));
+				""".format(self.keyspace, self.findTable))
+
+			self.sesion.execute("""
+				CREATE TABLE IF NOT EXISTS {0}.{1}
+				
+
+		
+
+
+
+
+
+
+
 
 
 	def createTable(self,table):

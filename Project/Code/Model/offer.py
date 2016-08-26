@@ -12,4 +12,13 @@ class Offer:
 		self.features[name] = value
 
 
+	def show(self):
+		print("Offer: ")
+		print(" Description:			"+self.description)
+		print(" publication Date:	"+str(self.pubDate))
+		print(" Features: 				"+str(self.features))
+
+			
+
+
 

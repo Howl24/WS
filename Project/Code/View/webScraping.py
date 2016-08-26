@@ -121,7 +121,8 @@ def main():
 	mainList.addMsgList(msgList)
 
 	database = Store(keyspace)
-	database.connect()
+	if not database.connect():
+		return None
 
 	#sys.stdout = open("summary.txt", 'w')
 	#sys.stderr = open(out,'w')

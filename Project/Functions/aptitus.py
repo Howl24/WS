@@ -29,8 +29,10 @@ def makeLinkUrl(link, url):
 
 		
 
+
+
 #Must be sent to Functions
-def toPublicationDate(self, passTime):
+def toPublicationDate(passTime):
 		curDate = datetime.date.today()
 
 		if passTime == "Ayer":
@@ -62,8 +64,6 @@ def toPublicationDate(self, passTime):
 			pubDate = curDate - datetime.timedelta(months = value)
 		
 		return pubDate
-
-
 
 
 

@@ -29,29 +29,6 @@ def makePageUrl(pageNum, url):
 def makeLinkUrl(link, url):
 	linkUrl = "http://bumeran.com.pe" + link
 	return linkUrl
-
-
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	
 	
-
-
-
-
 

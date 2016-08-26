@@ -25,7 +25,11 @@ class Scraper:
 
 	def getList(self, soup, tag, dict, attr, index):
 
-		tagList = soup.find_all(tag,dict)
+		if tag == '*':
+			clsSearch = dict["class"]
+			tagList = soup.find_all(class_ = clsSearch)
+		else:
+			tagList = soup.find_all(tag,dict)
 
 		dataList = []
 		if (attr != ""):

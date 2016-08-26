@@ -100,7 +100,7 @@ class Template:
 
 		#print(areas)
 		areas = ["administracion-y-finanzas"]
-		areas = ["/empleos-area-administracion-contabilidad-y-finanzas.html"]
+		#areas = ["/empleos-area-administracion-contabilidad-y-finanzas.html"]
 
 		if areas is None:
 			mainList.setTitle("Failed to scrap areas. Check areas source",MessageList.ERR)
@@ -123,7 +123,6 @@ class Template:
 		scraper = Scraper(soup, self.numOffSource)
 
 		data = scraper.scrap()
-		print(data)
 
 		numOff = data[0]
 			
@@ -190,9 +189,10 @@ class Template:
 				return None
 
 			offer = self.getOfferFromLink(linkUrl)
+
 			if offer is not None:
 				passTime = totDates[index]
-				offer.pubDate = self._toPublicationDate(passTime)
+				offer.pubDate = self.toPublicationDate(passTime)
 				totOffers.append(offer)
 			else:
 				totOffers.append(offer)
@@ -241,8 +241,39 @@ class Template:
 		mainList.setTitle(str(len(totalOffers)) + " offers obtained in total (Invalid included)",MessageList.INF)
 		return totalOffers
 					
+	#Must be sent to Functions
+	def toPublicationDate(self, passTime):
+		curDate = datetime.date.today()
+	
+		if passTime == "Ayer":
+			pubDate= curDate - datetime.timedelta(days = 1)
+			return pubDate
+	
+		parts = passTime.split()
 
+		type = parts[2]
+		value = int(parts[1])
 
+		if type in ['segundos','segundo']:
+			pubDate = curDate - datetime.timedelta(seconds = value)
+
+		if type in ['minutos', 'minuto']:
+			pubDate = curDate - datetime.timedelta(minutes = value)
+
+		if type in ['hora', 'horas']:
+			pubDate = curDate - datetime.timedelta(hours = value)
+
+		if type in ["día", "días"]:
+			pubDate = curDate - datetime.timedelta(days = value)
+
+		if type in ["semana", "semanas"]:
+			pubDate = curDate - datetime.timedelta(weeks = value)
+
+		if type in ["mes", "meses"]:
+			pubDate = curDate - datetime.timedelta(months = value)
+		
+		return pubDate
+	
 	def getOffersFromAreaUrl(self,areaUrl,mainList):
 
 		periodUrl = self.module.makePeriodUrl(self.period,areaUrl)
@@ -271,6 +302,9 @@ class Template:
 
 
 	def execute(self,db, mainList):
+
+		if not db.createTables(self.jobCenter):
+			return None
 
 		#Importing Custom Functions
 		msgList = MessageList()
@@ -338,9 +372,6 @@ def customImport(filename, mainList):
 	if not "makeLinkUrl" in customFunctions:
 		mainList.addMsg("Missing makeLinkUrl function",MessageList.ERR)
 
-	if not "toPublicationDate" in customFunctions:
-		mainList.addMsg("Missing toPublicationDate function", MessageList.ERR)
-
 	if mainList.size() is not 0:
 		mainList.setTitle("Fail importing function file", MessageList.ERR)
 		return None
@@ -357,6 +388,7 @@ class FeaturesSource:
 		self.namesSource = namesSource
 		self.valuesSource = valuesSource
 
+	
 
 	@classmethod
 	def fromFile(cls, file, mainList):
@@ -444,53 +476,22 @@ class OfferTemplate(Template):
 			eprint("Cannot access to the link "+link)
 			return None
 
-		title = self.getDataFromSource(soup, self.titleSource)
-		if title is None: eprint("  Title source problem")
-		if title == "": eprint("  Empty Title")
-
-		level = self.getDataFromSource(soup, self.levelSource)
-		if level is None: eprint("  Level source problem")
-		if level == "": eprint("  Empty level")
-
-		area = self.getDataFromSource(soup, self.areaSource)
-		if area is None: eprint("  Area source problem")
-		if area == "": eprint("  Empty area")
-
-		business = self.getDataFromSource(soup, self.businessSource)
-		if business is None: eprint("  Business source problem")
-		if business == "": eprint("  Empty business")
-
-		description = self.getDataFromSource(soup, self.descSource)
-		if description is None: eprint("  Description source problem. INVALID OFFER")
+		description = self.getDataFromSource(soup,self.descSource)
+		if description is None:	eprint("  Description source problem. INVALID OFFER")
 		if description == "": eprint("  Empty description. INVALID OFFER")
 
-		requirements = self.getDataFromSource(soup, self.reqSource)
-		if requirements is None: eprint("  Requirements sourcde problem")
-		if requirements == "": eprint("  Empty requirements")
-
-		locality = self.getDataFromSource(soup, self.localitySource)
-		if locality is None: eprint("  Locality source problem")
-		if locality == "": eprint("  Empty locality")
-
-		modality = self.getDataFromSource(soup, self.modalitySource)
-		if modality is None: eprint("  Modality source problem")
-		if modality == "": eprint("  Empty modality")
-
-		salary = self.getDataFromSource(soup, self.salarySource)
-		if salary is None: eprint("  Salary source problem")
-		if salary == "": eprint("  Empty salary")
-
-		others = self.getDataFromSource(soup, self.othersSource)
-		if others is None: eprint("  Others source problem")
-		if others == "": eprint("  Empty others")
-
-		eprint("  Link: " + link)
 
 		if description is None or description == "":
+			print("Link: "+ link)
 			return None
 		else:
+			offer = Offer(description)
 
-			offer = Offer(title, level, area, business, description, requirements, locality, modality, salary, others)
+			for featSource in self.featSources:
+				names = self.getDataFromSource(soup, featSource.namesSource)
+				values = self.getDataFromSource(soup, featSource.valuesSource)
+
+				for idx in range(min(len(names),len(values))):
+					offer.addFeature(names[idx],values[idx])
+
 			return offer
-		
-
