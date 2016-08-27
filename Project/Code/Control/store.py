@@ -136,38 +136,36 @@ class Store:
 
 		if len(list(result)) == 0:
 			#No duplication
-			self.sesion.execute("""
-				INSERT INTO {0}.{1}(description, month, year) values(
-				{2},{3},{4})
-				""".format(self.keyspace, findTable, description,str(month), str(year)))
+			cmd = """
+				INSERT INTO {0}.{1}(description, month, year) values
+				(%s,%s,%s)
+				""".format(self.keyspace, findTable)
 
-	
-			self.sesion.execute("""
+			try:
+				self.sesion.execute(cmd,[description,month, year])
+			except:
+				eprint("")
+				eprint("Error running the cql command: "+ cmd)
+				eprint("---------------------------------------------------------------------------------------------------------")
+				return None
+
+			cmd = """
 				INSERT INTO {0}.{1}(position, description, pubdate, features)
 				VALUES (
 				%s,%s,%s,%s)
-				""".format(self.keyspace, findTable), (curIndex, description, pubDate, offer.features))
+				""".format(self.keyspace, findTable)
+
+			try:
+				self.sesion.execute(cmd, [curIndex,description, pubDate, offer.features])
+			except:
+				eprint("")
+				eprint("Error running the cql command: "+cmd)
+				eprint("---------------------------------------------------------------------------------------------------------")
+				return None
+
 
 			return True
 			
 		else:
 			return False
-
-#			command = """ insert into btpucp.offers(month, year, description, title, level, area,
-#										business, requirements,locality, modality, salary, others, pubdate) values (
-#										{0}, {1}, '{2}','{3}', '{4}' ,'{5}','{6}','{7}','{8}', '{9}', '{10}', '{11}', '{12}') if not exists;
-#								""".format(str(month), str(year), desc, title, level, area, business, requirements,\
-#								locality, modality, salary, others, pubDate)
-#	
-#			command = unidecode(command)
-#	
-#			try:
-#				result = self.sesion.execute(command)
-#				return not result[0][0]
-#			except:
-#				eprint("")
-#				eprint("Error running the cql command: "+ command)
-#				eprint("--------------------------------------------------------------------------------------------------------------------")
-#				return None
-#	
 
