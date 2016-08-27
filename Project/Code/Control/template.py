@@ -482,7 +482,7 @@ class OfferTemplate(Template):
 
 
 		if description is None or description == "":
-			print("Link: "+ link)
+			eprint("Link: "+ link)
 			return None
 		else:
 			offer = Offer(description)

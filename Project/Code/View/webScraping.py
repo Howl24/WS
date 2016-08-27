@@ -42,7 +42,7 @@ def createTemplate(tempFilename, mainList):
 def sendEmail(sender, password, receiver, filename):
 
 	msg = MIMEMultipart()
-	with open("summary") as repFile:
+	with open("summary.txt") as repFile:
 		part = MIMEText(repFile.read())
 		msg.attach(part)
 	msg['Subject'] = "Web Scraping resuts"
@@ -124,8 +124,8 @@ def main():
 	if not database.connect():
 		return None
 
-	#sys.stdout = open("summary.txt", 'w')
-	#sys.stderr = open(out,'w')
+	sys.stdout = open("summary.txt", 'w')
+	sys.stderr = open(out,'w')
 		
 	for filename in filenames:
 		msgList = MessageList()
@@ -140,7 +140,7 @@ def main():
 	mainList.showAll(0,sys.stdout)
 	sys.stdout.flush()
 
-	#sendEmail(sender, password, receiver, out)
+	sendEmail(sender, password, receiver, out)
 
 
 if __name__ == "__main__":

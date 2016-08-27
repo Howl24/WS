@@ -74,12 +74,12 @@ class Store:
 		cntDisc = 0
 		cntErr = 0
 		for offer in offers:
-			repeated = self.insertOffer(offer,jobCenter)
-			if repeated is None:
+			inserted =  self.insertOffer(offer,jobCenter)
+			if inserted is None:
 				cntErr += 1
 				errorLoading = True
 			else:
-				if not repeated:
+				if inserted:
 					cntLoad += 1
 				else:
 					cntDisc += 1
@@ -113,6 +113,14 @@ class Store:
 		return idx
 
 
+	@staticmethod
+	def setCurIndex():
+		file = open("curIndex", 'w')
+		file.write(str(self.curIndex))
+		
+
+
+
 	def insertOffer(self, offer,jobCenter):
 		month = offer.pubDate.month
 		year = offer.pubDate.year
@@ -131,7 +139,6 @@ class Store:
 				""".format(self.keyspace, findTable, description)	
 			result = self.sesion.execute(cmd)
 		except:
-			print(cmd)
 			return None
 
 		if len(list(result)) == 0:
@@ -153,10 +160,11 @@ class Store:
 				INSERT INTO {0}.{1}(position, description, pubdate, features)
 				VALUES (
 				%s,%s,%s,%s)
-				""".format(self.keyspace, findTable)
+				""".format(self.keyspace, storeTable)
 
 			try:
-				self.sesion.execute(cmd, [curIndex,description, pubDate, offer.features])
+				self.sesion.execute(cmd, [self.curIndex,description, pubDate, offer.features])
+				self.curIndex+=1
 			except:
 				eprint("")
 				eprint("Error running the cql command: "+cmd)
@@ -168,4 +176,3 @@ class Store:
 			
 		else:
 			return False
-
