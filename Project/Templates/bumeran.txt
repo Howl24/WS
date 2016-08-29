@@ -11,15 +11,10 @@ Number of Sources:			|1|
 Offer Sources & Date:		|* a/{"class":"aviso_box"}/href->1 h3/{"class":"aviso_cuando"}/|
 
 Offer Structure:
-Title:									|1 div/{"id":"contenidoAviso"}/->1 h2/{"class":"h2"}/|
-Level:									||
-Area: 									|1 div/{"id":"contenidoAviso"}/->1 table/{}/->2 tr/{}/->1 td/{}/|
-Business:					      |1 div/{"id":"contenidoAviso"}/->1 h3/{}/|
-Description:			      |1 div/{"id":"contenido_aviso"}/|
-Requirements:						||
-Locality:								|1 div/{"id":"contenidoAviso"}/->1 table/{}/->5 tr/{}/->1 td/{}/|
-Modality:								|1 div/{"id":"contenidoAviso"}/->1 table/{}/->3 tr/{}/->1 td/{}/|
-Salary:									|1 div/{"id":"contenidoAviso"}/->1 table/{}/->4 tr/{}/->1 td/{}/|
-Others: 								||
+Description:						|1 div/{"id":"contenido_aviso"}/|
+Feature Names:					|* th/{}/|
+Feature Values:					|* td/{}/|
+
+
 
 

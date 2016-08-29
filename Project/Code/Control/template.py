@@ -99,7 +99,7 @@ class Template:
 		areas = data[0]
 
 		#print(areas)
-		areas = ["administracion-y-finanzas"]
+		#areas = ["administracion-y-finanzas"]
 		#areas = ["/empleos-area-administracion-contabilidad-y-finanzas.html"]
 
 		if areas is None:
@@ -242,7 +242,7 @@ class Template:
 					
 	#Must be sent to Functions
 	def toPublicationDate(self, passTime):
-		curDate = datetime.date.today()
+		curDate = datetime.datetime.now()
 	
 		if passTime == "Ayer":
 			pubDate= curDate - datetime.timedelta(days = 1)
