@@ -99,7 +99,7 @@ class Template:
 		areas = data[0]
 
 		#print(areas)
-		#areas = ["administracion-y-finanzas"]
+		areas = ["medicina-salud"]
 		#areas = ["/empleos-area-administracion-contabilidad-y-finanzas.html"]
 
 		if areas is None:
@@ -340,6 +340,7 @@ class Template:
 						db.loadOffers(offers, self.jobCenter,msgList)
 						mainList.addMsgList(msgList)
 
+				db.setCurIndex()
 				mainList.setTitle("Template " + self.jobCenter + " executed.", MessageList.INF)
 				return 
 
@@ -396,7 +397,7 @@ class FeaturesSource:
 		if fileline is None or utils.isblank(fileline) :
 			return None
 			
-		names = utils.readSourceFromString(fileline)
+		names = utils.readSourceFromString(fileline,mainList)
 		if names is None:
 			mainList.addMsg("Failed to read names", MessageList.ERR)
 		values = utils.readSourceFromFile(file)
@@ -460,7 +461,14 @@ class OfferTemplate(Template):
 	def getDataFromSource(self, soup, source):
 		if source == "":
 			return None
+
 		else:
+			if (type(source) is list):
+				return source
+
+
+
+
 			scraper = Scraper(soup, source)
 			data = scraper.scrap()[0]
 			return data

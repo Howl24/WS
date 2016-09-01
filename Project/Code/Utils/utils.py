@@ -101,16 +101,31 @@ def _validateStringSource(source):
 
 
 
-def readSourceFromString(str):
+def readSourceFromString(strdata	,mainList = MessageList() ):
 
-	data = str.split('|')
+
+	data = strdata.split('|')
 
 	if (len(data)!=3):
 		return None
 	else:
 			
 		if _validateStringSource(data[1]):
-			return data[1]
+			listData = eval(data[1])
+			if type(listData) is list:
+				mainList.addMsg("Using list data from template: " + str(listData),MessageList.INF)
+				return listData
+
+			try:	
+				listData = eval(data[1])
+				if type(listData) is list:
+					mainList.addMsg("Using list data from template: " + str(listData),MessageList.INF)
+					return listData
+
+			except:
+				return None
+
+				
 		else:
 
 			levels = data[1].split('->')

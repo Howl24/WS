@@ -14,4 +14,6 @@ Offer Structure:
 Description:						|1 section/{"class":"aviso"}/->1 div/{"class":"job_box_information", "itemprop":"description"}/|
 Feature Names:					|* */{"class":"job_box_title"}/|
 Feature Values:					|* div/{"class":"job_box_information"}/|
+Feature Names:					|["Titulo"]|
+Feature Values:					|* h1/{"class":"job_description_title"}/|
 

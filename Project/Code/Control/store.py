@@ -113,12 +113,10 @@ class Store:
 		return idx
 
 
-	@staticmethod
-	def setCurIndex():
+	def setCurIndex(self):
 		file = open("curIndex", 'w')
 		file.write(str(self.curIndex))
 		
-
 
 
 	def insertOffer(self, offer,jobCenter):
