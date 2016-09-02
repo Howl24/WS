@@ -98,9 +98,9 @@ class Template:
 
 		areas = data[0]
 
-		print(areas)
+		#print(areas)
 		#areas = ["medicina-salud"]
-		areas = ["/empleos-area-salud-medicina-y-farmacia.html"]
+		#areas = ["/empleos-area-salud-medicina-y-farmacia.html"]
 
 		if areas is None:
 			mainList.setTitle("Failed to scrap areas. Check areas source",MessageList.ERR)
@@ -331,8 +331,9 @@ class Template:
 				for index,areaUrl in enumerate(areaUrls):
 					
 					mainList.addMsg("Area #"+str(index+1),MessageList.INF)
+					mainList.addMsg(areaUrl,MessageList.INF)
 					msgList = MessageList()
-					eprint("Area #"+str(index+1))
+					eprint("Area #"+str(index+1)+"   "+areaUrl)
 					offers = self.getOffersFromAreaUrl(areaUrl,msgList)
 					eprint("------------------------------------------------------------------------------")
 					mainList.addMsgList(msgList)
