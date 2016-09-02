@@ -49,6 +49,9 @@ def sendEmail(sender, password, receiver, filename):
 	msg['From'] = "btpucp"
 	msg['To'] =receiver
 
+
+	sys.stderr.flush()
+
 	with open(filename, "rb") as file:
 		part = MIMEApplication(file.read(), Name = basename(filename))
 		part['Content-Disposition'] = 'attachment; filename="%s"' % basename(filename)

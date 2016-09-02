@@ -99,8 +99,8 @@ class Template:
 		areas = data[0]
 
 		#print(areas)
-		areas = ["medicina-salud"]
-		#areas = ["/empleos-area-administracion-contabilidad-y-finanzas.html"]
+		#areas = ["medicina-salud"]
+		#areas = ["/empleos-area-salud-medicina-y-farmacia.html"]
 
 		if areas is None:
 			mainList.setTitle("Failed to scrap areas. Check areas source",MessageList.ERR)
@@ -130,7 +130,7 @@ class Template:
 		try:
 			numOff = int(numOff.split()[0])
 		except:
-			mainList.addMsg("value obtained is not a number")
+			mainList.addMsg("value obtained is not a number",MessageList.ERR)
 			numOff = None
 
 		if numOff is None:
@@ -269,7 +269,7 @@ class Template:
 			pubDate = curDate - datetime.timedelta(weeks = value)
 
 		if type in ["mes", "meses"]:
-			pubDate = curDate - datetime.timedelta(months = value)
+			pubDate = curDate - datetime.timedelta(days = value*30)
 		
 		return pubDate
 	
