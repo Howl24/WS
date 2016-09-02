@@ -98,9 +98,9 @@ class Template:
 
 		areas = data[0]
 
-		#print(areas)
+		print(areas)
 		#areas = ["medicina-salud"]
-		#areas = ["/empleos-area-salud-medicina-y-farmacia.html"]
+		areas = ["/empleos-area-salud-medicina-y-farmacia.html"]
 
 		if areas is None:
 			mainList.setTitle("Failed to scrap areas. Check areas source",MessageList.ERR)
@@ -180,7 +180,7 @@ class Template:
 
 		totOffers = []
 		for index,link in enumerate(totLinks):
-			eprint("Offer #"+str(index+1))
+			eprint("		Offer #"+str(index+1))
 
 			try:
 				linkUrl = self.module.makeLinkUrl(link,pageUrl)
@@ -225,7 +225,7 @@ class Template:
 				#Abort everything
 				return None #Return totalOffers if you dont wanna abort all
 
-			eprint("Page #"+str(numPag))
+			eprint("	Page #"+str(numPag))
 			offers = self.getOffersFromPageUrl(pageUrl)
 			eprint("")
 
@@ -332,7 +332,9 @@ class Template:
 					
 					mainList.addMsg("Area #"+str(index+1),MessageList.INF)
 					msgList = MessageList()
+					eprint("Area #"+str(index+1))
 					offers = self.getOffersFromAreaUrl(areaUrl,msgList)
+					eprint("------------------------------------------------------------------------------")
 					mainList.addMsgList(msgList)
 
 					if offers is not None:
